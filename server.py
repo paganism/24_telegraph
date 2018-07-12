@@ -1,23 +1,28 @@
-from flask import Flask, render_template, request, url_for
-import os
-import json
+from flask import Flask, render_template, request, url_for, redirect, make_response
+import os, random, json
+from flask_wtf.csrf import CSRFProtect
+from articles import get_name_article, article_save
 
 
 app = Flask(__name__)
+csrf = CSRFProtect(app)
+app.config['SECRET_KEY'] = 'lemon wedges'
 
 
 @app.route('/', methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
-        input_dict = {'username': request.cookies.get('username'),
-                      'header': request.form.get('header'),
-                      'signature': request.form.get('signature'),
-                      'body': request.form.get('body')
+        input_dict = {# 'username': request.cookies.get('username'),
+                      'header': request.form['header'],
+                      'signature': request.form['signature'],
+                      'body': request.form['body']
                       }
         print(input_dict)
         print(request.cookies)
-        with open('./file', 'w') as article:
-            article.write(str(json.dumps(input_dict)))
+        # with open('./file', 'w') as article:
+        #     article.write(str(json.dumps(input_dict)))
+        article_name = get_name_article(input_dict['header'])
+        article_save(article_name, input_dict)
     else:
         return render_template('form.html')
     return render_template('form.html'), input_dict
@@ -32,6 +37,10 @@ def page():
                            header=raw_article['header'],
                            signature=raw_article['signature'],
                            body=raw_article['body'])
+
+
+def plus_one(x):
+    return x + 1
 
 
 if __name__ == "__main__":
