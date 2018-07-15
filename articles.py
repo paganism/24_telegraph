@@ -15,10 +15,21 @@ def get_name_article(header):
     return art_name
 
 
-def article_save(article_name, article_data):
-    with open('articles/%s' % article_name, 'w') as article_file:
-        article_file.write(str(json.dumps(article_data)))
+def article_save(header, signature, body, article_name, token):
+    article = {'header': header,
+               'signature': signature,
+               'body': body,
+               'token': token
+               }
+    with open('article/%s.json' % article_name, 'w') as article_file:
+        json.dump(article, article_file)
+
+
+def get_article(article_name):
+    print(article_name)
+    with open('article/%s.json' % article_name, 'r') as article_file:
+        return json.loads(article_file.read())
 
 
 if __name__ == "__main__":
-    print(get_name_article('the last day'))
+    pass
