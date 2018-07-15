@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response
-import os, random, json
+import uuid
 from flask_wtf.csrf import CSRFProtect
-from articles import get_name_article, article_save
+from articles import get_name_article, article_save, get_article
 
 
 app = Flask(__name__)
@@ -12,36 +12,38 @@ app.config['SECRET_KEY'] = 'lemon wedges'
 @app.route('/', methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
-        input_dict = {# 'username': request.cookies.get('username'),
-                      'header': request.form['header'],
-                      'signature': request.form['signature'],
-                      'body': request.form['body']
-                      }
-        print(input_dict)
-        print(request.cookies)
-        # with open('./file', 'w') as article:
-        #     article.write(str(json.dumps(input_dict)))
-        article_name = get_name_article(input_dict['header'])
-        article_save(article_name, input_dict)
+        token = str(uuid.uuid4())
+        header = request.form['header']
+        signature = request.form['signature']
+        body = request.form.get('body')
+        article_name = get_name_article(header)
+        article_save(header, signature, body, article_name, token)
+        resp = make_response(redirect(url_for('show_posted_page', article=article_name)))
+        resp.set_cookie('token', token)
+
     else:
         return render_template('form.html')
-    return render_template('form.html'), input_dict
+    return resp
 
 
-@app.route('/articles', methods=['POST', 'GET'])
-def page():
-    with open('./file', 'r') as article_file:
-        raw_article = json.loads(article_file.read())
-        print(type(raw_article))
+@app.route('/<article>/', methods=['POST', 'GET'])
+def show_posted_page(article):
+    raw_article = get_article(article)
+    if raw_article['token'] != request.cookies.get('token'):
+        return render_template('404.html'), 404
+    if request.method == 'POST':
+        token = raw_article['token']
+        header = request.form['header']
+        signature = request.form['signature']
+        body = request.form['body']
+        article_save(header, signature, body, article, token)
+        return redirect(url_for('show_posted_page', article=article))
     return render_template('page.html',
                            header=raw_article['header'],
                            signature=raw_article['signature'],
                            body=raw_article['body'])
 
 
-def plus_one(x):
-    return x + 1
-
-
 if __name__ == "__main__":
+    # app.debug = True
     app.run()
