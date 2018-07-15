@@ -1,6 +1,13 @@
 # Telegraph Clone
 
-{TODO. There will be project description}
+This [site] is clone of Telegram and created from anonymous publications
+Users can publish and edit articles
+
+# How to deploy on localhost
+```bash
+$ nohup python3 server.py 
+```
+Then open the page [localhost:8000](http://localhost:8000) in browser.
 
 # Project Goals
 
