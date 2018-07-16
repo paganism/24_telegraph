@@ -26,7 +26,6 @@ def article_save(header, signature, body, article_name, token):
 
 
 def get_article(article_name):
-    print(article_name)
     with open('article/%s.json' % article_name, 'r') as article_file:
         return json.loads(article_file.read())
 
