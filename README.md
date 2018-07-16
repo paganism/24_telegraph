@@ -1,6 +1,6 @@
 # Telegraph Clone
 
-This [site] is clone of Telegram and created from anonymous publications
+This [site](http://80.211.16.55:8000) is clone of Telegraph and created from anonymous publications
 Users can publish and edit articles
 
 # How to deploy on localhost
