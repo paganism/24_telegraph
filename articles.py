@@ -9,7 +9,7 @@ def get_name_article(header):
     header = re.sub(' ', '-', header)
     art_name = '%s-%s-%s' % (header, month, day)
     counter = 0
-    if os.path.exists('articles/%s' % art_name):
+    if os.path.exists('article/%s.json' % art_name):
         counter+=1
         art_name = '%s-%s' % (art_name, counter)
     return art_name
