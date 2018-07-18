@@ -5,8 +5,14 @@ Users can publish and edit articles
 
 # How to deploy on localhost
 ```bash
-$ nohup python3 server.py 
+$ export FLASK_APP=server.py
 ```
+For dedug mode use variable FLASK_DEBUG=1
+```
+$export FLASK_DEBUG=1
+$ flask run
+```
+
 Then open the page [localhost:8000](http://localhost:8000) in browser.
 
 # Project Goals
