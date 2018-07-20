@@ -8,8 +8,10 @@ def get_name_article(header):
     header = re.sub('[/\'"#.!@`]', '', header)
     header = re.sub(' ', '-', header)
     article_slug = '%s-%s-%s' % (header, month, day)
+    print('ARTICLE_SLUG IS {}'.format(article_slug))
+    print('ARTICLE_SLUG END IS {}'.format(article_slug[:-1]))
     counter = 0
-    if os.path.exists('article/%s.json' % article_slug):
+    while os.path.exists('article/%s.json' % article_slug):
         counter += 1
         article_slug = '%s-%s' % (article_slug, counter)
     return article_slug
