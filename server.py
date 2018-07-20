@@ -28,9 +28,16 @@ def form():
 
 @app.route('/<article>/', methods=['POST', 'GET'])
 def show_posted_page(article):
+    show_save = 't'
     raw_article = get_article(article)
     if raw_article['token'] != request.cookies.get('token'):
-        return render_template('404.html'), 404
+        show_save = 'f'
+        render_template('page.html',
+                        token=raw_article['token'],
+                        show_save=show_save,
+                        header=raw_article['header'],
+                        signature=raw_article['signature'],
+                        body=raw_article['body'])
     if request.method == 'POST':
         token = raw_article['token']
         header = request.form['header']
@@ -38,7 +45,10 @@ def show_posted_page(article):
         body = request.form['body']
         article_save(header, signature, body, article, token)
         return redirect(url_for('show_posted_page', article=article))
+
     return render_template('page.html',
+                           token=raw_article['token'],
+                           show_save=show_save,
                            header=raw_article['header'],
                            signature=raw_article['signature'],
                            body=raw_article['body'])
