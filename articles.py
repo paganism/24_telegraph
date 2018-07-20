@@ -7,21 +7,21 @@ def get_name_article(header):
     day = cur_date.day
     header = re.sub('[/\'"#.!@`]', '', header)
     header = re.sub(' ', '-', header)
-    art_name = '%s-%s-%s' % (header, month, day)
+    article_slug = '%s-%s-%s' % (header, month, day)
     counter = 0
-    if os.path.exists('article/%s.json' % art_name):
+    if os.path.exists('article/%s.json' % article_slug):
         counter+=1
-        art_name = '%s-%s' % (art_name, counter)
-    return art_name
+        art_name = '%s-%s' % (article_slug, counter)
+    return article_slug
 
 
-def article_save(header, signature, body, article_name, token):
+def article_save(header, signature, body, article_slug, token):
     article = {'header': header,
                'signature': signature,
                'body': body,
                'token': token
                }
-    with open('article/%s.json' % article_name, 'w') as article_file:
+    with open('article/%s.json' % article_slug, 'w') as article_file:
         json.dump(article, article_file)
 
 
