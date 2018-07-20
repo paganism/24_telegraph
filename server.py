@@ -12,12 +12,16 @@ app.secret_key = os.environ.get('SECRET_KEY')
 @app.route('/', methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
-        token = str(uuid.uuid4())
+        if not request.cookies.get('token'):
+            token = str(uuid.uuid4())
+        else:
+            token = request.cookies.get('token')
         header = request.form['header']
         signature = request.form['signature']
         body = request.form.get('body')
         article_name = get_name_article(header)
         article_save(header, signature, body, article_name, token)
+        print(request.cookies.get('token'))
         resp = make_response(redirect(url_for('show_posted_page', article=article_name)))
         resp.set_cookie('token', token)
 
