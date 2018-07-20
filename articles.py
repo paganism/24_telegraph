@@ -11,7 +11,7 @@ def get_name_article(header):
     counter = 0
     if os.path.exists('article/%s.json' % article_slug):
         counter+=1
-        art_name = '%s-%s' % (article_slug, counter)
+        article_slug = '%s-%s' % (article_slug, counter)
     return article_slug
 
 
