@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request, url_for, redirect, make_response
-import uuid
+import uuid, os
 from flask_wtf.csrf import CSRFProtect
 from articles import get_name_article, article_save, get_article
 
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
-app.config['SECRET_KEY'] = 'lemon wedges'
+app.secret_key = os.environ.get('SECRET_KEY')
 
 
 @app.route('/', methods=['POST', 'GET'])

@@ -4,8 +4,10 @@ This [site](http://80.211.16.55:8000) is clone of Telegraph and created for anon
 Users can publish and edit articles
 
 # How to deploy on localhost
+
 ```bash
 $ export FLASK_APP=server.py
+$ export SECRET_KEY='your secret key'
 ```
 For dedug mode use variable FLASK_DEBUG=1
 ```
