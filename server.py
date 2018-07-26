@@ -21,7 +21,6 @@ def form():
         body = request.form.get('body')
         article_name = get_name_article(header)
         article_save(header, signature, body, article_name, token)
-        print(request.cookies.get('token'))
         resp = make_response(redirect(url_for('show_posted_page', article=article_name)))
         resp.set_cookie('token', token)
 
@@ -32,13 +31,10 @@ def form():
 
 @app.route('/<article>/', methods=['POST', 'GET'])
 def show_posted_page(article):
-    show_save = 't'
     raw_article = get_article(article)
     if raw_article['token'] != request.cookies.get('token'):
-        show_save = 'f'
-        render_template('page.html',
+        return render_template('read_only_page.html',
                         token=raw_article['token'],
-                        show_save=show_save,
                         header=raw_article['header'],
                         signature=raw_article['signature'],
                         body=raw_article['body'])
@@ -52,7 +48,6 @@ def show_posted_page(article):
 
     return render_template('page.html',
                            token=raw_article['token'],
-                           show_save=show_save,
                            header=raw_article['header'],
                            signature=raw_article['signature'],
                            body=raw_article['body'])
