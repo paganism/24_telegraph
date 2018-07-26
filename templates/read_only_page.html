@@ -23,29 +23,20 @@
 <nav class="navbar">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="/">{{ signature |e}}</a>
+      <a class="navbar-brand" href="/">Write article</a>
     </div>
   </div>
 </nav>
 
 <div class="container">
-  <form method="POST">
-    <div class="form-group">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-    </div>
-    <div class="form-group">
-      <textarea name="header" class="form-control" rows="1" placeholder="Заголовок">{{ header |e}} </textarea>
-    </div>
-    <div class="form-group">
-      <textarea name="signature" class="form-control" rows="1" placeholder="Подпись">{{ signature |e}}</textarea>
-    </div>
-    <div class="form-group">
-      <textarea name="body" class="form-control" rows="10" placeholder="Здесь будет результат">{{ body |e}}</textarea>
-    </div>
-    <div class="form-group">
-      <button class="btn btn-primary" type="submit">Сохранить</button>
-    </div>
-  </form>
+  <div class="col-md-8">
+    <h1>{{ header |e}}</h1>
+    <hr>
+    <h3>{{ signature |e}}</h3>
+    <hr>
+    <p>{{ body |e}}</p>
+    <p></p>
+  </div>
 </div><!-- /.container -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
