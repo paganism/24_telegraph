@@ -45,7 +45,6 @@ def show_posted_page(article):
         body = request.form['body']
         article_save(header, signature, body, article, token)
         return redirect(url_for('show_posted_page', article=article))
-
     return render_template('page.html',
                            token=raw_article['token'],
                            header=raw_article['header'],
